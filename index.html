@@ -1,35 +1,309 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Acar Games and Apps</title>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acar Games and Apps</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; font-family: Arial, sans-serif; }
+    body { background: #07130c; color: #fff; position: relative; }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      display: block;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(34,197,94,0.16), transparent 30%),
+        radial-gradient(circle at 82% 26%, rgba(16,185,129,0.14), transparent 30%),
+        radial-gradient(circle at 50% 78%, rgba(132,204,22,0.08), transparent 34%),
+        linear-gradient(180deg, rgba(5,15,8,0.2), rgba(5,15,8,0.72));
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 820px;
+      text-align: center;
+      padding: 48px 30px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.11);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 25px 80px rgba(0,0,0,0.46);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.82);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 48px;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 28px rgba(34,197,94,0.18);
+    }
+
+    .subtitle {
+      max-width: 640px;
+      margin: 0 auto 34px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.72);
+    }
+
+    .links {
+      display: grid;
+      gap: 14px;
+    }
+
+    .link-button {
+      display: block;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      padding: 16px 18px;
+      border-radius: 16px;
+      font-size: 17px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      transition: 0.25s ease;
+    }
+
+    .link-button:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.10);
+    }
+
+    .link-button.primary {
+      background: linear-gradient(135deg, rgba(22,163,74,0.34), rgba(16,185,129,0.24));
+      box-shadow: 0 12px 30px rgba(21,128,61,0.28);
+    }
+
+    .link-button.primary:hover {
+      background: linear-gradient(135deg, rgba(22,163,74,0.44), rgba(16,185,129,0.32));
+    }
+
+    .mail-box {
+      margin-top: 26px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .mail-box a {
+      color: #bbf7d0;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .mail-box a:hover {
+      text-decoration: underline;
+    }
+
+    .note, .footer {
+      color: rgba(255,255,255,0.56);
+      font-size: 14px;
+    }
+
+    .note {
+      margin-top: 24px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 28px;
+    }
+
+    @media (max-width: 640px) {
+      .card { padding: 32px 18px; }
+      h1 { font-size: 34px; }
+      .subtitle { font-size: 16px; }
+      .link-button { font-size: 16px; }
+    }
+  </style>
 </head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="bg-glow"></div>
 
-<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+  <div class="container">
+    <div class="card">
+      <div class="badge">Official Developer Website</div>
 
-    <h1>Acar Games and Apps</h1>
+      <h1>Acar Games and Apps</h1>
 
-    <p>Welcome to my official developer website.</p>
+      <p class="subtitle">
+        Welcome to the official developer website of Acar Games and Apps.
+        Visit our blog or view the app authorization file below.
+      </p>
 
-    <hr style="width: 50%;">
-
-    <h2>Links</h2>
-
-    <p>
-        <a href="https://acargamess.blogspot.com/" target="_blank">
-            Blog sayfamı ziyaret et
+      <div class="links">
+        <a class="link-button primary" href="https://acargamess.blogspot.com/" target="_blank">
+          Visit Our Blog
         </a>
-    </p>
 
-    <p>
-        <a href="https://sedopezo21.github.io/app-ads.txt" target="_blank">
-            app-ads.txt
+        <a class="link-button" href="https://sedopezo21.github.io/app-ads.txt" target="_blank">
+          View app-ads.txt
         </a>
-    </p>
+      </div>
 
-    <hr style="width: 50%;">
+      <div class="mail-box">
+        Support email: <a href="mailto:sedatacar@mail.com">sedatacar@mail.com</a>
+      </div>
 
-    <p>© 2026 Acar Games and Apps</p>
+      <p class="note">
+        This website is used for official app support and advertising authorization.
+      </p>
 
+      <div class="footer">
+        © 2025 Acar Games and Apps
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = innerWidth;
+    let height = canvas.height = innerHeight;
+
+    const mouse = { x: width / 2, y: height / 2, radius: 160 };
+    const dots = [];
+    let dotCount = Math.min(110, Math.floor((width * height) / 14000));
+
+    class Dot {
+      constructor() {
+        this.baseX = Math.random() * width;
+        this.baseY = Math.random() * height;
+        this.x = this.baseX;
+        this.y = this.baseY;
+        this.size = Math.random() * 1.8 + 0.8;
+        this.vx = 0;
+        this.vy = 0;
+      }
+
+      update() {
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < mouse.radius) {
+          const force = (mouse.radius - dist) / mouse.radius;
+          const angle = Math.atan2(dy, dx);
+          this.vx += Math.cos(angle) * force * 0.7;
+          this.vy += Math.sin(angle) * force * 0.7;
+        }
+
+        this.vx += (this.baseX - this.x) * 0.02;
+        this.vy += (this.baseY - this.y) * 0.02;
+
+        this.vx *= 0.92;
+        this.vy *= 0.92;
+
+        this.x += this.vx;
+        this.y += this.vy;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(134,239,172,0.48)";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(34,197,94,0.03)";
+        ctx.fill();
+      }
+    }
+
+    function initDots() {
+      dots.length = 0;
+      for (let i = 0; i < dotCount; i++) dots.push(new Dot());
+    }
+
+    function drawConnections() {
+      for (let i = 0; i < dots.length; i++) {
+        for (let j = i + 1; j < dots.length; j++) {
+          const dx = dots[i].x - dots[j].x;
+          const dy = dots[i].y - dots[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.moveTo(dots[i].x, dots[i].y);
+            ctx.lineTo(dots[j].x, dots[j].y);
+            ctx.strokeStyle = `rgba(134,239,172,${(1 - dist / 110) * 0.10})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      dots.forEach(dot => {
+        dot.update();
+        dot.draw();
+      });
+      drawConnections();
+      requestAnimationFrame(animate);
+    }
+
+    addEventListener("mousemove", e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    addEventListener("touchmove", e => {
+      if (e.touches[0]) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    addEventListener("resize", () => {
+      width = canvas.width = innerWidth;
+      height = canvas.height = innerHeight;
+      dotCount = Math.min(110, Math.floor((width * height) / 14000));
+      initDots();
+    });
+
+    initDots();
+    animate();
+  </script>
 </body>
 </html>
