@@ -11,7 +11,7 @@ const translations = {
   hero_cta_secondary: {tr:"Google Play'de görüntüle", en:"View on Google Play"},
   hero_stats: {tr:"8 Uygulama · Türkiye · Android", en:"8 Apps · Turkey · Android"},
   about_eyebrow: {tr:"Stüdyo", en:"Studio"},
-  about_h2: {tr:"Sekiz uygulama, tek marka.", en:"Eight apps, one brand."},
+  about_h2: {tr:"Sürüş ve simülasyon oyunlarında uzmanlaşıyoruz.", en:"We specialize in driving and simulation games."},
   about_p: {tr:"Acargames, sürüş fizikleri, kaza simülasyonları ve hızlı temolu arcade oyunları üzerine odaklanan bir Android stüdyosu. Modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlıyoruz. Google Play'de yayında olan 8 başlık, gündelik eğlenceden pratik kullanıma uzanan bir yelpazeyi kapsıyor.", en:"Acargames is an Android studio focused on driving physics, crash simulations, and fast-paced arcade games. We're redefining mobile entertainment with modern design and innovative gameplay. The 8 titles live on Google Play span a range from everyday fun to practical use."},
   bd_1: {tr:"Sürüş & Drift Oyunu", en:"Driving & Drift Games"},
   bd_2: {tr:"Rastgele Oyun", en:"Casual Game"},
@@ -77,6 +77,9 @@ function setLanguage(lang){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize in Turkish so hardcoded HTML and the translations table never drift apart
+  setLanguage('tr');
+
   // Language switch
   document.querySelectorAll('.lang-btn').forEach(btn=>{
     btn.addEventListener('click', ()=> setLanguage(btn.dataset.lang));
@@ -113,10 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('is-visible'));
   }
 
-  // Footer year
-  const yearEl = document.getElementById('year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
   // Mouse-reactive particle background (hero only — safely no-ops if canvas isn't on the page)
   const canvas = document.getElementById('particleCanvas');
   if (canvas) {
@@ -126,12 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let width, height;
 
     function resize(){
-      const rect = canvas.parentElement.getBoundingClientRect();
-      width = canvas.width = rect.width;
-      height = canvas.height = rect.height;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     }
     function createParticles(){
-      const count = Math.min(55, Math.max(20, Math.floor((width * height) / 16000)));
+      const count = Math.min(90, Math.max(30, Math.floor((width * height) / 14000)));
       particles = [];
       for (let i = 0; i < count; i++) {
         particles.push({
@@ -179,12 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (!prefersReduced) requestAnimationFrame(step);
     }
-    canvas.parentElement.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     });
-    canvas.parentElement.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+    document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
     window.addEventListener('resize', () => { resize(); createParticles(); });
 
     resize();
