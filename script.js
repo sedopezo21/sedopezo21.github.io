@@ -116,86 +116,27 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('is-visible'));
   }
 
-  // Mouse-reactive particle background (hero only — safely no-ops if canvas isn't on the page)
-  const canvas = document.getElementById('particleCanvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let mouse = { x: null, y: null, radius: 110 };
-    let width, height;
+  // Soft ambient glow that follows the cursor (calmer, more premium alternative to the old particle field)
+  const glow = document.getElementById('ambientGlow');
+  if (glow) {
+    let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2.5;
+    let currentX = targetX, currentY = targetY;
 
-    function resize(){
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    function createParticles(){
-      const count = Math.min(90, Math.max(30, Math.floor((width * height) / 14000)));
-      particles = [];
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.35,
-          vy: (Math.random() - 0.5) * 0.35,
-          r: Math.random() * 1.4 + 1
-        });
-      }
-    }
-    function step(){
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-        if (mouse.x != null) {
-          const dx = p.x - mouse.x, dy = p.y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < mouse.radius && dist > 0.01) {
-            const f = (mouse.radius - dist) / mouse.radius;
-            p.x += (dx / dist) * f * 1.4;
-            p.y += (dy / dist) * f * 1.4;
-          }
-        }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(143,184,155,0.6)';
-        ctx.fill();
-      });
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 105) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = 'rgba(143,184,155,' + (0.16 * (1 - dist / 105)) + ')';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
-      if (!prefersReduced) requestAnimationFrame(step);
-    }
     window.addEventListener('mousemove', e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      targetX = e.clientX;
+      targetY = e.clientY;
     });
-    document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-    window.addEventListener('resize', () => { resize(); createParticles(); });
 
-    resize();
-    createParticles();
-    if (!prefersReduced) {
-      step();
+    if (prefersReduced) {
+      // Static, centered glow — no animation loop for reduced-motion users
+      glow.style.transform = `translate(${targetX}px, ${targetY}px)`;
     } else {
-      // static single frame for users who prefer reduced motion
-      particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(143,184,155,0.4)';
-        ctx.fill();
-      });
+      (function followCursor(){
+        currentX += (targetX - currentX) * 0.07;
+        currentY += (targetY - currentY) * 0.07;
+        glow.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        requestAnimationFrame(followCursor);
+      })();
     }
   }
 });
