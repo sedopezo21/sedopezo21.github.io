@@ -9,10 +9,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
-<div class="ambient-glow" id="ambientGlow" aria-hidden="true"></div>
+<div class="glow-field" id="glowField" aria-hidden="true">
+  <div class="glow-halo"></div>
+  <div class="glow-mid"></div>
+  <div class="glow-fringe-r"></div>
+  <div class="glow-fringe-b"></div>
+  <div class="glow-core"></div>
+  <div class="glow-particles"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
 <div class="grain" aria-hidden="true"></div>
 
 <header class="nav">
@@ -90,6 +97,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=3"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>

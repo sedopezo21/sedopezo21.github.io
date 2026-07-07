@@ -9,18 +9,20 @@ const translations = {
   hero_sub: {tr:"Acargames, mobil eğlenceyi yeniden tanımlayan sürüş, drift ve simülasyon oyunları tasarlıyor.", en:"Acargames designs driving, drift, and simulation games that redefine mobile entertainment."},
   hero_cta_primary: {tr:"Oyunları Gör", en:"See the Games"},
   hero_cta_secondary: {tr:"Google Play'de görüntüle", en:"View on Google Play"},
-  hero_stats: {tr:"8 Uygulama · Türkiye · Android", en:"8 Apps · Turkey · Android"},
+  hero_stats: {tr:"10 Uygulama · Türkiye · Android", en:"10 Apps · Turkey · Android"},
   about_eyebrow: {tr:"Stüdyo", en:"Studio"},
   about_h2: {tr:"Sürüş ve simülasyon oyunlarında uzmanlaşıyoruz.", en:"We specialize in driving and simulation games."},
-  about_p: {tr:"Acargames, sürüş fizikleri, kaza simülasyonları ve hızlı temolu arcade oyunları üzerine odaklanan bir Android stüdyosu. Modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlıyoruz. Google Play'de yayında olan 8 başlık, gündelik eğlenceden pratik kullanıma uzanan bir yelpazeyi kapsıyor.", en:"Acargames is an Android studio focused on driving physics, crash simulations, and fast-paced arcade games. We're redefining mobile entertainment with modern design and innovative gameplay. The 8 titles live on Google Play span a range from everyday fun to practical use."},
+  about_p: {tr:"Acargames, sürüş fizikleri, kaza simülasyonları ve hızlı temolu arcade oyunları üzerine odaklanan bir Android stüdyosu. Modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlıyoruz. Google Play'de yayında olan 10 başlık, gündelik eğlenceden pratik kullanıma uzanan bir yelpazeyi kapsıyor.", en:"Acargames is an Android studio focused on driving physics, crash simulations, and fast-paced arcade games. We're redefining mobile entertainment with modern design and innovative gameplay. The 10 titles live on Google Play span a range from everyday fun to practical use."},
   bd_1: {tr:"Sürüş & Drift Oyunu", en:"Driving & Drift Games"},
   bd_2: {tr:"Rastgele Oyun", en:"Casual Game"},
   bd_3: {tr:"Günlük Yaşam Uygulaması", en:"Daily-Life App"},
   showcase_eyebrow: {tr:"Portföy", en:"Portfolio"},
-  showcase_h2: {tr:"8 başlık, Google Play'de yayında", en:"8 titles, live on Google Play"},
+  showcase_h2: {tr:"10 başlık, Google Play'de yayında", en:"10 titles, live on Google Play"},
   showcase_sub: {tr:"Herhangi birine tıklayarak doğrudan mağaza sayfasına gidebilirsin.", en:"Tap any title to jump straight to its store page."},
   hook_ezanpro: {tr:"Namaz vakitlerini takip et, ezanı kaçırma.", en:"Track prayer times, never miss the call to prayer."},
   hook_idle: {tr:"Madenciliği kur, biriktir — ekranı kapatsan bile kazan.", en:"Set up your mining rig, earn even while offline."},
+  hook_case: {tr:"Kutuyu aç, şansını dene, koleksiyonunu büyüt.", en:"Open the case, try your luck, grow your collection."},
+  hook_blockfall: {tr:"Blokları diz, çizgileri tamamla, skorunu katla.", en:"Line up the blocks, clear the lines, multiply your score."},
   hook_battle: {tr:"Sahada son kalan araç sen ol.", en:"Be the last car standing in the arena."},
   hook_chase: {tr:"Polisten kaç, sokakları arkanda bırak.", en:"Outrun the police, leave the streets behind."},
   hook_parkour: {tr:"İmkansız rampalarda ustalığını kanıtla.", en:"Prove your skill on impossible ramps."},
@@ -116,27 +118,94 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('is-visible'));
   }
 
-  // Soft ambient glow that follows the cursor (calmer, more premium alternative to the old particle field)
-  const glow = document.getElementById('ambientGlow');
-  if (glow) {
-    let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2.5;
-    let currentX = targetX, currentY = targetY;
+  // Volumetric cursor light: independent spring-physics per layer creates a natural
+  // trailing/comet effect at speed, and lets everything settle into one point at rest.
+  const glowField = document.getElementById('glowField');
+  if (glowField) {
+    const core = glowField.querySelector('.glow-core');
+    const mid = glowField.querySelector('.glow-mid');
+    const halo = glowField.querySelector('.glow-halo');
+    const fringeR = glowField.querySelector('.glow-fringe-r');
+    const fringeB = glowField.querySelector('.glow-fringe-b');
+    const particles = glowField.querySelector('.glow-particles');
+
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2.5;
+    let lastX = mouseX, lastY = mouseY, lastT = performance.now();
+    let speed = 0;
+
+    const springs = {
+      core: { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.34, d: 0.72 },
+      mid:  { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.16, d: 0.80 },
+      halo: { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.09, d: 0.85 }
+    };
+
+    function stepSpring(s) {
+      const dx = mouseX - s.x, dy = mouseY - s.y;
+      s.vx = (s.vx + dx * s.k) * s.d;
+      s.vy = (s.vy + dy * s.k) * s.d;
+      s.x += s.vx;
+      s.y += s.vy;
+    }
 
     window.addEventListener('mousemove', e => {
-      targetX = e.clientX;
-      targetY = e.clientY;
+      const now = performance.now();
+      const dt = Math.max(now - lastT, 1);
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      const inst = (Math.sqrt(dx * dx + dy * dy) / dt) * 16;
+      speed = speed * 0.82 + inst * 0.18;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      lastX = mouseX;
+      lastY = mouseY;
+      lastT = now;
+      glowField.classList.add('is-active');
     });
+    document.addEventListener('mouseleave', () => glowField.classList.remove('is-active'));
 
     if (prefersReduced) {
-      // Static, centered glow — no animation loop for reduced-motion users
-      glow.style.transform = `translate(${targetX}px, ${targetY}px)`;
+      [core, mid, halo, fringeR, fringeB, particles].forEach(el => {
+        el.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      });
     } else {
-      (function followCursor(){
-        currentX += (targetX - currentX) * 0.07;
-        currentY += (targetY - currentY) * 0.07;
-        glow.style.transform = `translate(${currentX}px, ${currentY}px)`;
-        requestAnimationFrame(followCursor);
+      (function frame(){
+        stepSpring(springs.core);
+        stepSpring(springs.mid);
+        stepSpring(springs.halo);
+        speed *= 0.94;
+        const boost = Math.min(speed, 1);
+
+        core.style.transform = `translate(${springs.core.x}px, ${springs.core.y}px) scale(${1 + boost * 0.4})`;
+        mid.style.transform = `translate(${springs.mid.x}px, ${springs.mid.y}px)`;
+        halo.style.transform = `translate(${springs.halo.x}px, ${springs.halo.y}px)`;
+        fringeR.style.transform = `translate(${springs.core.x - 2.5 - boost * 3}px, ${springs.core.y - 1}px)`;
+        fringeB.style.transform = `translate(${springs.core.x + 2.5 + boost * 3}px, ${springs.core.y + 1}px)`;
+        particles.style.transform = `translate(${springs.mid.x}px, ${springs.mid.y}px)`;
+        glowField.style.opacity = Math.min(0.75 + boost * 0.5, 1);
+
+        requestAnimationFrame(frame);
       })();
     }
+  }
+
+  // Magnetic hover: buttons, showcase rows and nav links tilt slightly and emit a
+  // matching spotlight that tracks the pointer, with spring easing on release.
+  if (!prefersReduced) {
+    const magneticEls = document.querySelectorAll('.btn, .row, .nav-links a');
+    magneticEls.forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const rect = el.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top) / rect.height;
+        el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+        if (el.classList.contains('row') || el.classList.contains('btn')) {
+          const tilt = 2; // degrees, kept subtle on purpose
+          const rx = (0.5 - py) * tilt * 2;
+          const ry = (px - 0.5) * tilt * 2;
+          el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        }
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
   }
 });

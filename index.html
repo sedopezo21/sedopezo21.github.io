@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acargames — Android Oyunları ve Uygulamaları</title>
-<meta name="description" content="Acargames: modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlayan Android stüdyosu. Sürüş, drift ve simülasyon türlerinde 8 oyun ve uygulama.">
+<meta name="description" content="Acargames: modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlayan Android stüdyosu. Sürüş, drift ve simülasyon türlerinde 10 oyun ve uygulama.">
 <meta property="og:title" content="Acargames">
 <meta property="og:description" content="Modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlıyoruz.">
 <meta property="og:type" content="website">
@@ -13,10 +13,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
-<div class="ambient-glow" id="ambientGlow" aria-hidden="true"></div>
+<div class="glow-field" id="glowField" aria-hidden="true">
+  <div class="glow-halo"></div>
+  <div class="glow-mid"></div>
+  <div class="glow-fringe-r"></div>
+  <div class="glow-fringe-b"></div>
+  <div class="glow-core"></div>
+  <div class="glow-particles"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
 <div class="grain" aria-hidden="true"></div>
 
 <header class="nav">
@@ -55,7 +62,7 @@
         <a href="#oyunlar" class="btn btn-primary" data-i18n="hero_cta_primary">Oyunları Gör</a>
         <a href="https://play.google.com/store/apps/dev?id=5437785091123773517" target="_blank" rel="noopener" class="btn-text" data-i18n="hero_cta_secondary">Google Play'de görüntüle</a>
       </div>
-      <p class="hero-stats" data-i18n="hero_stats">8 Uygulama &middot; Türkiye &middot; Android</p>
+      <p class="hero-stats" data-i18n="hero_stats">10 Uygulama &middot; Türkiye &middot; Android</p>
     </div>
   </section>
 
@@ -65,11 +72,11 @@
       <div class="about-text">
         <p class="eyebrow" data-i18n="about_eyebrow">Stüdyo</p>
         <h2 data-i18n="about_h2">Sürüş ve simülasyon oyunlarında uzmanlaşıyoruz.</h2>
-        <p data-i18n="about_p">Acargames, sürüş fizikleri, kaza simülasyonları ve hızlı temolu arcade oyunları üzerine odaklanan bir Android stüdyosu. Modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlıyoruz. Google Play'de yayında olan 8 başlık, gündelik eğlenceden pratik kullanıma uzanan bir yelpazeyi kapsıyor.</p>
+        <p data-i18n="about_p">Acargames, sürüş fizikleri, kaza simülasyonları ve hızlı temolu arcade oyunları üzerine odaklanan bir Android stüdyosu. Modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlıyoruz. Google Play'de yayında olan 10 başlık, gündelik eğlenceden pratik kullanıma uzanan bir yelpazeyi kapsıyor.</p>
       </div>
       <div class="breakdown">
         <div class="bd-row"><span class="bd-num">06</span><span class="bd-label" data-i18n="bd_1">Sürüş &amp; Drift Oyunu</span></div>
-        <div class="bd-row"><span class="bd-num">01</span><span class="bd-label" data-i18n="bd_2">Rastgele Oyun</span></div>
+        <div class="bd-row"><span class="bd-num">03</span><span class="bd-label" data-i18n="bd_2">Rastgele Oyun</span></div>
         <div class="bd-row"><span class="bd-num">01</span><span class="bd-label" data-i18n="bd_3">Günlük Yaşam Uygulaması</span></div>
       </div>
     </div>
@@ -78,7 +85,7 @@
   <section class="showcase" id="oyunlar">
     <div class="container">
       <p class="eyebrow reveal" data-i18n="showcase_eyebrow">Portföy</p>
-      <h2 class="reveal" data-i18n="showcase_h2">8 başlık, Google Play'de yayında</h2>
+      <h2 class="reveal" data-i18n="showcase_h2">10 başlık, Google Play'de yayında</h2>
       <p class="showcase-sub reveal" data-i18n="showcase_sub">Herhangi birine tıklayarak doğrudan mağaza sayfasına gidebilirsin.</p>
 
       <div class="list">
@@ -95,6 +102,22 @@
           <div class="row-main">
             <h3 class="row-title">Idle Crypto Miner Game</h3>
             <p class="row-hook" data-i18n="hook_idle">Madenciliği kur, biriktir — ekranı kapatsan bile kazan.</p>
+          </div>
+          <div class="row-meta"><span class="row-tag" data-i18n="tag_casual">Rastgele</span><span class="row-arrow">→</span></div>
+        </a>
+        <a class="row" href="https://play.google.com/store/apps/details?id=com.casesimgames.casesimulation" target="_blank" rel="noopener" aria-label="Case Simulator: CS - Play Store'da gör">
+          <img src="https://play-lh.googleusercontent.com/IsKqp0x0_veJyvMc-tO2tjNs5REbmB3r_K2c0Mc1n2weTtbTeBCbs_NMH2RRMiqjYVEPt07b14h1pzFYO_r3=s128" alt="" class="row-icon" loading="lazy">
+          <div class="row-main">
+            <h3 class="row-title">Case Simulator: CS</h3>
+            <p class="row-hook" data-i18n="hook_case">Kutuyu aç, şansını dene, koleksiyonunu büyüt.</p>
+          </div>
+          <div class="row-meta"><span class="row-tag" data-i18n="tag_casual">Rastgele</span><span class="row-arrow">→</span></div>
+        </a>
+        <a class="row" href="https://play.google.com/store/apps/details?id=com.acargames.blockfall" target="_blank" rel="noopener" aria-label="Block Fall 3D: Logic Puzzle - Play Store'da gör">
+          <div class="row-icon row-icon-fallback" aria-hidden="true">B</div>
+          <div class="row-main">
+            <h3 class="row-title">Block Fall 3D: Logic Puzzle</h3>
+            <p class="row-hook" data-i18n="hook_blockfall">Blokları diz, çizgileri tamamla, skorunu katla.</p>
           </div>
           <div class="row-meta"><span class="row-tag" data-i18n="tag_casual">Rastgele</span><span class="row-arrow">→</span></div>
         </a>
@@ -180,6 +203,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=3"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>
