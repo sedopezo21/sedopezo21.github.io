@@ -80,7 +80,7 @@ function setLanguage(lang){
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize in Turkish so hardcoded HTML and the translations table never drift apart
-  setLanguage('tr');
+  setLanguage('en');
 
   // Language switch
   document.querySelectorAll('.lang-btn').forEach(btn=>{
@@ -118,76 +118,69 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('is-visible'));
   }
 
-  // Volumetric cursor light: independent spring-physics per layer creates a natural
-  // trailing/comet effect at speed, and lets everything settle into one point at rest.
+  // Quiet ambient light: one soft, low-opacity patch that eases toward the cursor.
+  // Deliberately minimal — no bright core, no color fringing, nothing that reads as a "light source."
   const glowField = document.getElementById('glowField');
   if (glowField) {
-    const core = glowField.querySelector('.glow-core');
-    const mid = glowField.querySelector('.glow-mid');
-    const halo = glowField.querySelector('.glow-halo');
-    const fringeR = glowField.querySelector('.glow-fringe-r');
-    const fringeB = glowField.querySelector('.glow-fringe-b');
-    const particles = glowField.querySelector('.glow-particles');
-
+    const ambient = glowField.querySelector('.glow-ambient');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2.5;
-    let lastX = mouseX, lastY = mouseY, lastT = performance.now();
-    let speed = 0;
-
-    const springs = {
-      core: { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.34, d: 0.72 },
-      mid:  { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.16, d: 0.80 },
-      halo: { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.09, d: 0.85 }
-    };
-
-    function stepSpring(s) {
-      const dx = mouseX - s.x, dy = mouseY - s.y;
-      s.vx = (s.vx + dx * s.k) * s.d;
-      s.vy = (s.vy + dy * s.k) * s.d;
-      s.x += s.vx;
-      s.y += s.vy;
-    }
+    const spring = { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.10, d: 0.82 };
 
     window.addEventListener('mousemove', e => {
-      const now = performance.now();
-      const dt = Math.max(now - lastT, 1);
-      const dx = e.clientX - lastX, dy = e.clientY - lastY;
-      const inst = (Math.sqrt(dx * dx + dy * dy) / dt) * 16;
-      speed = speed * 0.82 + inst * 0.18;
       mouseX = e.clientX;
       mouseY = e.clientY;
-      lastX = mouseX;
-      lastY = mouseY;
-      lastT = now;
-      glowField.classList.add('is-active');
     });
-    document.addEventListener('mouseleave', () => glowField.classList.remove('is-active'));
+
+    function stepSpring(){
+      const dx = mouseX - spring.x, dy = mouseY - spring.y;
+      spring.vx = (spring.vx + dx * spring.k) * spring.d;
+      spring.vy = (spring.vy + dy * spring.k) * spring.d;
+      spring.x += spring.vx;
+      spring.y += spring.vy;
+    }
 
     if (prefersReduced) {
-      [core, mid, halo, fringeR, fringeB, particles].forEach(el => {
-        el.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      });
+      ambient.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
     } else {
       (function frame(){
-        stepSpring(springs.core);
-        stepSpring(springs.mid);
-        stepSpring(springs.halo);
-        speed *= 0.94;
-        const boost = Math.min(speed, 1);
-
-        core.style.transform = `translate(${springs.core.x}px, ${springs.core.y}px) scale(${1 + boost * 0.4})`;
-        mid.style.transform = `translate(${springs.mid.x}px, ${springs.mid.y}px)`;
-        halo.style.transform = `translate(${springs.halo.x}px, ${springs.halo.y}px)`;
-        fringeR.style.transform = `translate(${springs.core.x - 2.5 - boost * 3}px, ${springs.core.y - 1}px)`;
-        fringeB.style.transform = `translate(${springs.core.x + 2.5 + boost * 3}px, ${springs.core.y + 1}px)`;
-        particles.style.transform = `translate(${springs.mid.x}px, ${springs.mid.y}px)`;
-        glowField.style.opacity = Math.min(0.75 + boost * 0.5, 1);
-
+        stepSpring();
+        ambient.style.transform = `translate(${spring.x}px, ${spring.y}px)`;
         requestAnimationFrame(frame);
       })();
     }
   }
 
-  // Magnetic hover: buttons, showcase rows and nav links tilt slightly and emit a
+  // Dust motes: a handful of near-invisible specks drifting slowly, unrelated to the cursor —
+  // pure atmosphere, cheap CSS-driven animation with randomized paths.
+  const dustContainer = document.querySelector('.dust');
+  if (dustContainer && !prefersReduced) {
+    const count = 16;
+    for (let i = 0; i < count; i++) {
+      const s = document.createElement('span');
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.top = Math.random() * 100 + 'vh';
+      s.style.setProperty('--dx', (Math.random() * 30 - 15) + 'px');
+      s.style.setProperty('--dy', (-60 - Math.random() * 60) + 'px');
+      s.style.animationDuration = (22 + Math.random() * 20) + 's';
+      s.style.animationDelay = (-Math.random() * 30) + 's';
+      dustContainer.appendChild(s);
+    }
+  }
+
+  // Subtle parallax: hero artwork drifts a few pixels against the cursor, hinting at depth
+  // without ever feeling like a "feature."
+  const parallaxEls = document.querySelectorAll('.hero-banner img, .wordmark img');
+  if (parallaxEls.length && !prefersReduced) {
+    window.addEventListener('mousemove', e => {
+      const nx = (e.clientX / window.innerWidth - 0.5);
+      const ny = (e.clientY / window.innerHeight - 0.5);
+      parallaxEls.forEach(el => {
+        el.style.transform = `translate(${nx * 4}px, ${ny * 4}px)`;
+      });
+    });
+  }
+
+  // Premium hover: buttons, showcase rows and nav links tilt slightly and catch a glass-like
   // matching spotlight that tracks the pointer, with spring easing on release.
   if (!prefersReduced) {
     const magneticEls = document.querySelectorAll('.btn, .row, .nav-links a');
