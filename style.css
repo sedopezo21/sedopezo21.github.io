@@ -88,6 +88,14 @@ img{display:block; max-width:100%;}
   opacity:0.05; mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+#cursorFX{position:fixed; inset:0; width:100vw; height:100vh; z-index:5; pointer-events:none;}
+.grain-boost{
+  position:fixed; inset:0; z-index:6; pointer-events:none;
+  opacity:0.12; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-image:radial-gradient(circle 170px at var(--cx,50%) var(--cy,50%), black, transparent 100%);
+  mask-image:radial-gradient(circle 170px at var(--cx,50%) var(--cy,50%), black, transparent 100%);
+}
 header, main, footer{position:relative; z-index:1;}
 
 /* Premium hover: glass-reflection sheen (angled, tracks cursor) + metallic edge + soft depth shadow + spring tilt */

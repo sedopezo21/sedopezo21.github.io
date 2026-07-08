@@ -141,10 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (prefersReduced) {
       ambient.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      document.documentElement.style.setProperty('--cx', mouseX + 'px');
+      document.documentElement.style.setProperty('--cy', mouseY + 'px');
     } else {
       (function frame(){
         stepSpring();
         ambient.style.transform = `translate(${spring.x}px, ${spring.y}px)`;
+        document.documentElement.style.setProperty('--cx', spring.x + 'px');
+        document.documentElement.style.setProperty('--cy', spring.y + 'px');
         requestAnimationFrame(frame);
       })();
     }
@@ -185,6 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!prefersReduced) {
     const magneticEls = document.querySelectorAll('.btn, .row, .nav-links a');
     magneticEls.forEach(el => {
+      el.addEventListener('mouseenter', () => { window.__nearInteractive = true; });
+      el.addEventListener('mouseleave', () => {
+        window.__nearInteractive = false;
+        el.style.transform = '';
+      });
       el.addEventListener('mousemove', e => {
         const rect = el.getBoundingClientRect();
         const px = (e.clientX - rect.left) / rect.width;
@@ -195,10 +204,139 @@ document.addEventListener('DOMContentLoaded', () => {
           const tilt = 2; // degrees, kept subtle on purpose
           const rx = (0.5 - py) * tilt * 2;
           const ry = (px - 0.5) * tilt * 2;
-          el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+          el.style.transform = `perspective(700px) translateY(-2px) rotateX(${rx}deg) rotateY(${ry}deg)`;
         }
       });
-      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
     });
+  }
+
+  // Cursor energy system: small emerald core + halo, a 0.5s fading plasma trail, and a
+  // loose field of orbiting particles that scatter on fast movement and settle at rest.
+  // Plain canvas — GPU-composited by the browser like WebGL would be, at a fraction of the weight
+  // for this few particles, and it degrades gracefully (no WebGL context to lose on weak GPUs).
+  const fx = document.getElementById('cursorFX');
+  if (fx && !prefersReduced) {
+    const ctx = fx.getContext('2d');
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resizeFx(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      fx.width = window.innerWidth * dpr;
+      fx.height = window.innerHeight * dpr;
+      fx.style.width = window.innerWidth + 'px';
+      fx.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resizeFx);
+    resizeFx();
+
+    let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2.5;
+    const cursor = { x: targetX, y: targetY, vx: 0, vy: 0 };
+    let lastX = targetX, lastY = targetY, lastT = performance.now();
+    let speed = 0;
+    const trail = [];
+
+    const PARTICLE_COUNT = 28;
+    const particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const baseRadius = 26 + Math.random() * 46;
+      particles.push({
+        angle: Math.random() * Math.PI * 2,
+        radius: baseRadius,
+        baseRadius,
+        orbitSpeed: (0.003 + Math.random() * 0.005) * (Math.random() < 0.5 ? -1 : 1),
+        size: 1 + Math.random() * 1.8,
+        twinklePhase: Math.random() * Math.PI * 2,
+        twinkleSpeed: 0.015 + Math.random() * 0.03,
+        white: Math.random() > 0.7
+      });
+    }
+
+    window.addEventListener('mousemove', e => {
+      const now = performance.now();
+      const dt = Math.max(now - lastT, 1);
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      const inst = (Math.sqrt(dx * dx + dy * dy) / dt) * 16;
+      speed = speed * 0.85 + inst * 0.15;
+      targetX = e.clientX;
+      targetY = e.clientY;
+      lastX = targetX;
+      lastY = targetY;
+      lastT = now;
+    });
+
+    function frame(t){
+      const k = 0.22, d = 0.74;
+      const dx = targetX - cursor.x, dy = targetY - cursor.y;
+      cursor.vx = (cursor.vx + dx * k) * d;
+      cursor.vy = (cursor.vy + dy * k) * d;
+      cursor.x += cursor.vx;
+      cursor.y += cursor.vy;
+      speed *= 0.95;
+      const boost = Math.min(speed, 1);
+      const gathered = window.__nearInteractive ? 0.55 : 1; // particles pull in near buttons/cards
+
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // Energy trail — short plasma line, fades over ~0.5s
+      trail.push({ x: cursor.x, y: cursor.y, t });
+      while (trail.length && t - trail[0].t > 500) trail.shift();
+      if (trail.length > 2) {
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        for (let i = 1; i < trail.length; i++) {
+          const p0 = trail[i - 1], p1 = trail[i];
+          const age = (t - p1.t) / 500;
+          const alpha = (1 - age) * 0.3;
+          if (alpha <= 0.01) continue;
+          ctx.beginPath();
+          ctx.moveTo(p0.x, p0.y);
+          ctx.lineTo(p1.x, p1.y);
+          ctx.strokeStyle = `rgba(143,184,155,${alpha})`;
+          ctx.lineWidth = Math.max(0.6, 2.6 * (1 - age));
+          ctx.shadowColor = 'rgba(143,184,155,0.55)';
+          ctx.shadowBlur = 5;
+          ctx.stroke();
+        }
+        ctx.shadowBlur = 0;
+      }
+
+      // Orbiting particle field — expands on fast movement, gathers in near buttons/at rest
+      particles.forEach(p => {
+        p.angle += p.orbitSpeed;
+        const targetRadius = (p.baseRadius + boost * 60) * gathered;
+        p.radius += (targetRadius - p.radius) * 0.06;
+        const px = cursor.x + Math.cos(p.angle) * p.radius;
+        const py = cursor.y + Math.sin(p.angle) * p.radius * 0.6;
+        p.twinklePhase += p.twinkleSpeed;
+        const twinkle = (Math.sin(p.twinklePhase) + 1) / 2;
+        const alpha = 0.2 + twinkle * 0.45;
+        ctx.beginPath();
+        ctx.arc(px, py, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.white ? `rgba(232,244,238,${alpha})` : `rgba(143,184,155,${alpha})`;
+        ctx.fill();
+      });
+
+      // Small emerald core + soft halo — deliberately tiny, no giant radial light
+      const haloR = 30;
+      const halo = ctx.createRadialGradient(cursor.x, cursor.y, 0, cursor.x, cursor.y, haloR);
+      halo.addColorStop(0, `rgba(143,184,155,${0.20 + boost * 0.12})`);
+      halo.addColorStop(1, 'rgba(143,184,155,0)');
+      ctx.beginPath();
+      ctx.arc(cursor.x, cursor.y, haloR, 0, Math.PI * 2);
+      ctx.fillStyle = halo;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(cursor.x, cursor.y, 5 + boost * 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(210,235,220,0.9)';
+      ctx.shadowColor = 'rgba(143,184,155,0.75)';
+      ctx.shadowBlur = 7;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   }
 });
