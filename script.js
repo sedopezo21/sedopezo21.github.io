@@ -317,24 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fill();
       });
 
-      // Small emerald core + soft halo — deliberately tiny, no giant radial light
-      const haloR = 30;
-      const halo = ctx.createRadialGradient(cursor.x, cursor.y, 0, cursor.x, cursor.y, haloR);
-      halo.addColorStop(0, `rgba(143,184,155,${0.20 + boost * 0.12})`);
-      halo.addColorStop(1, 'rgba(143,184,155,0)');
-      ctx.beginPath();
-      ctx.arc(cursor.x, cursor.y, haloR, 0, Math.PI * 2);
-      ctx.fillStyle = halo;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(cursor.x, cursor.y, 5 + boost * 1.5, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(210,235,220,0.9)';
-      ctx.shadowColor = 'rgba(143,184,155,0.75)';
-      ctx.shadowBlur = 7;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
