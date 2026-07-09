@@ -118,11 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('is-visible'));
   }
 
-  // Quiet ambient light: one soft, low-opacity patch that eases toward the cursor.
-  // Deliberately minimal — no bright core, no color fringing, nothing that reads as a "light source."
-  const glowField = document.getElementById('glowField');
-  if (glowField) {
-    const ambient = glowField.querySelector('.glow-ambient');
+  // Cursor position feed for the grain-texture shift only — no visible glow element anymore.
+  {
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2.5;
     const spring = { x: mouseX, y: mouseY, vx: 0, vy: 0, k: 0.10, d: 0.82 };
 
@@ -140,13 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (prefersReduced) {
-      ambient.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
       document.documentElement.style.setProperty('--cx', mouseX + 'px');
       document.documentElement.style.setProperty('--cy', mouseY + 'px');
     } else {
       (function frame(){
         stepSpring();
-        ambient.style.transform = `translate(${spring.x}px, ${spring.y}px)`;
         document.documentElement.style.setProperty('--cx', spring.x + 'px');
         document.documentElement.style.setProperty('--cy', spring.y + 'px');
         requestAnimationFrame(frame);
@@ -287,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i < trail.length; i++) {
           const p0 = trail[i - 1], p1 = trail[i];
           const age = (t - p1.t) / 500;
-          const alpha = (1 - age) * 0.3;
+          const alpha = (1 - age) * 0.22;
           if (alpha <= 0.01) continue;
           ctx.beginPath();
           ctx.moveTo(p0.x, p0.y);
@@ -295,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.strokeStyle = `rgba(143,184,155,${alpha})`;
           ctx.lineWidth = Math.max(0.6, 2.6 * (1 - age));
           ctx.shadowColor = 'rgba(143,184,155,0.55)';
-          ctx.shadowBlur = 5;
+          ctx.shadowBlur = 3;
           ctx.stroke();
         }
         ctx.shadowBlur = 0;
