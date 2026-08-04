@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acargames — Android Games & Apps</title>
-<meta name="description" content="Acargames: an Android studio redefining mobile entertainment with modern design and innovative gameplay. 10 driving, drift and simulation games and apps.">
+<meta name="description" content="Acargames: an Android studio redefining mobile entertainment with modern design and innovative gameplay. 11 driving, horror, and simulation games and apps.">
 <meta property="og:title" content="Acargames">
 <meta property="og:description" content="Redefining mobile entertainment with modern design and innovative gameplay.">
 <meta property="og:type" content="website">
@@ -12,15 +12,20 @@
 <link rel="icon" type="image/png" href="https://play-lh.googleusercontent.com/VYptY5OssJmD5Wh0BMGkPZG2lin6q_z4m8bGtNImqxo-uKueqaKjXhuXgGf3LalXznJJ=s94">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
-<div class="dust" aria-hidden="true"></div>
-<canvas id="cursorFX" aria-hidden="true"></canvas>
-<div class="grain" aria-hidden="true"></div>
-<div class="grain-boost" aria-hidden="true"></div>
 
+<!-- Background Effects -->
+<div class="bg-mesh" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Nav -->
 <header class="nav">
   <div class="nav-inner">
     <a href="#top" class="wordmark">
@@ -44,138 +49,177 @@
 </header>
 
 <main id="top">
-  <div class="hero-banner">
-    <img src="banner.jpg" alt="Acargames">
-  </div>
-
+  <!-- Hero -->
   <section class="hero">
+    <div class="floating-icons" aria-hidden="true">
+      <img class="float-icon" src="https://play-lh.googleusercontent.com/kGvk_7lacf6PBAI6iPW-0aC2weQaDCRhIil33UeFD2yk54zjnF0W-z1EXQ4KejYRox4AjmaWMVPue196YWvg=s128" alt="">
+      <img class="float-icon" src="https://play-lh.googleusercontent.com/r5y6pnChVd2mLQ0s3qLF3H-wO4T60-T02XPCjTejsgfvHITAbm5d1FS4551AjPzFSmV4acyYNdoYHE9odhAQ=s128" alt="">
+      <img class="float-icon" src="https://play-lh.googleusercontent.com/m5SjCw3v4Gji6q3dMU20TBFnKzTdDhWDJEInM2dltI8Zt33tEFrwoF-S3KJfOAObIfNOrAU7aCnF8EL9vPBqhNI=s128" alt="">
+    </div>
     <div class="container">
       <p class="eyebrow" data-i18n="hero_eyebrow">Türkiye &middot; Android &middot; Google Play</p>
-      <h1 data-i18n="hero_h1">Modern tasarım, yenilikçi oynanış.</h1>
+      <h1><span data-i18n="hero_h1_p1">Modern tasarım, </span><br><span class="gradient-text" data-i18n="hero_h1_p2">yenilikçi oynanış.</span></h1>
       <p class="hero-sub" data-i18n="hero_sub">Acargames, mobil eğlenceyi yeniden tanımlayan sürüş, drift ve simülasyon oyunları tasarlıyor.</p>
       <div class="hero-cta">
         <a href="#oyunlar" class="btn btn-primary" data-i18n="hero_cta_primary">Oyunları Gör</a>
-        <a href="https://play.google.com/store/apps/dev?id=5437785091123773517" target="_blank" rel="noopener" class="btn-text" data-i18n="hero_cta_secondary">Google Play'de görüntüle</a>
+        <a href="https://play.google.com/store/apps/dev?id=5437785091123773517" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="hero_cta_secondary">Google Play'de görüntüle →</a>
       </div>
-      <p class="hero-stats" data-i18n="hero_stats">10 Uygulama &middot; Türkiye &middot; Android</p>
-    </div>
-  </section>
-
-
-  <section class="about" id="studyo">
-    <div class="container reveal">
-      <div class="about-text">
-        <p class="eyebrow" data-i18n="about_eyebrow">Stüdyo</p>
-        <h2 data-i18n="about_h2">Sürüş ve simülasyon oyunlarında uzmanlaşıyoruz.</h2>
-        <p data-i18n="about_p">Acargames, sürüş fizikleri, kaza simülasyonları ve hızlı temolu arcade oyunları üzerine odaklanan bir Android stüdyosu. Modern tasarım ve yenilikçi oynanışla mobil eğlenceyi yeniden tanımlıyoruz. Google Play'de yayında olan 10 başlık, gündelik eğlenceden pratik kullanıma uzanan bir yelpazeyi kapsıyor.</p>
-      </div>
-      <div class="breakdown">
-        <div class="bd-row"><span class="bd-num">06</span><span class="bd-label" data-i18n="bd_1">Sürüş &amp; Drift Oyunu</span></div>
-        <div class="bd-row"><span class="bd-num">03</span><span class="bd-label" data-i18n="bd_2">Rastgele Oyun</span></div>
-        <div class="bd-row"><span class="bd-num">01</span><span class="bd-label" data-i18n="bd_3">Günlük Yaşam Uygulaması</span></div>
+      <div class="hero-stats">
+        <div><span class="stat-num" data-target="11">0</span><span data-i18n="stats_apps">Uygulama</span></div>
+        <div><span class="stat-num" data-target="6">0</span><span data-i18n="stats_driving">Sürüş</span></div>
+        <div><span class="stat-num" data-target="3">0</span><span data-i18n="stats_casual">Rastgele</span></div>
+        <div><span class="stat-num" data-target="1">0</span><span data-i18n="stats_horror">Korku</span></div>
       </div>
     </div>
   </section>
 
+  <!-- Stats -->
+  <section class="stats" id="studyo">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-num-big" data-target="06">00</div>
+          <div class="stat-label" data-i18n="bd_1">Sürüş & Drift Oyunu</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num-big" data-target="03">00</div>
+          <div class="stat-label" data-i18n="bd_2">Rastgele Oyun</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num-big" data-target="01">00</div>
+          <div class="stat-label" data-i18n="bd_3">Günlük Yaşam Uygulaması</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games -->
   <section class="showcase" id="oyunlar">
     <div class="container">
-      <p class="eyebrow reveal" data-i18n="showcase_eyebrow">Portföy</p>
-      <h2 class="reveal" data-i18n="showcase_h2">10 başlık, Google Play'de yayında</h2>
-      <p class="showcase-sub reveal" data-i18n="showcase_sub">Herhangi birine tıklayarak doğrudan mağaza sayfasına gidebilirsin.</p>
+      <div class="section-header reveal">
+        <p class="eyebrow" data-i18n="showcase_eyebrow">Portföy</p>
+        <h2 data-i18n="showcase_h2">11 başlık, Google Play'de yayında</h2>
+        <p data-i18n="showcase_sub">Herhangi birine tıklayarak doğrudan mağaza sayfasına gidebilirsin.</p>
+      </div>
 
-      <div class="list">
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.ezanpro.app" target="_blank" rel="noopener" aria-label="Ezanpro - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/cyTKgKc-d4sR5gIAJRDBkKxiwd2cxw-zD3u05SISwubLwTD5vYmlZj8IHRUs2c7JKmL071-Tnmd9mZJxgC-8ZA=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Ezanpro</h3>
-            <p class="row-hook" data-i18n="hook_ezanpro">Namaz vakitlerini takip et, ezanı kaçırma.</p>
+      <div class="games-grid">
+        <!-- New Game: Backrooms Deep Online -->
+        <a class="game-card" href="https://play.google.com/store/apps/dev?id=5437785091123773517" target="_blank" rel="noopener">
+          <div class="game-card-icon-fb" aria-hidden="true" style="background: linear-gradient(135deg, #ff3b3b, #7b2ff7);">BD</div>
+          <div class="game-card-info">
+            <div class="game-card-title">Backrooms Deep Online</div>
+            <div class="game-card-desc" data-i18n="hook_backrooms">Sonsuz koridorları keşfet, hayatta kalmaya çalış.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_utility">Günlük Yaşam</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-horror" data-i18n="tag_horror">Korku</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.redour.idlecryptominer" target="_blank" rel="noopener" aria-label="Idle Crypto Miner Game - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/2z9Gu-A4CLVr35DAUnUJzBKzG4WAMVjY3jDWJMTZboHukVq8_GYJwGikcVxBJTufwfTLeMkkkJG2vy5QNfXV8Q=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Idle Crypto Miner Game</h3>
-            <p class="row-hook" data-i18n="hook_idle">Madenciliği kur, biriktir — ekranı kapatsan bile kazan.</p>
+
+        <!-- Original Games -->
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.Redour.CarCrashSimulatorRoyale2" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/kGvk_7lacf6PBAI6iPW-0aC2weQaDCRhIil33UeFD2yk54zjnF0W-z1EXQ4KejYRox4AjmaWMVPue196YWvg=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Car Crash Simulator Royale 2</div>
+            <div class="game-card-desc" data-i18n="hook_royale2">Her çarpışma bir gösteri, her hasar gerçek.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_casual">Rastgele</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-driving" data-i18n="tag_driving">Sürüş</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.casesimgames.casesimulation" target="_blank" rel="noopener" aria-label="Case Simulator: CS - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/IsKqp0x0_veJyvMc-tO2tjNs5REbmB3r_K2c0Mc1n2weTtbTeBCbs_NMH2RRMiqjYVEPt07b14h1pzFYO_r3=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Case Simulator: CS</h3>
-            <p class="row-hook" data-i18n="hook_case">Kutuyu aç, şansını dene, koleksiyonunu büyüt.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.Acargames.CarDriftMonsterEscape" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/m5SjCw3v4Gji6q3dMU20TBFnKzTdDhWDJEInM2dltI8Zt33tEFrwoF-S3KJfOAObIfNOrAU7aCnF8EL9vPBqhNI=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Car Drift: Monster Escape</div>
+            <div class="game-card-desc" data-i18n="hook_drift">Labirentte drift at, canavardan kaç.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_casual">Rastgele</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-driving" data-i18n="tag_driving">Sürüş</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.acargames.blockfall" target="_blank" rel="noopener" aria-label="Block Fall 3D: Logic Puzzle - Play Store'da gör">
-          <div class="row-icon row-icon-fallback" aria-hidden="true">B</div>
-          <div class="row-main">
-            <h3 class="row-title">Block Fall 3D: Logic Puzzle</h3>
-            <p class="row-hook" data-i18n="hook_blockfall">Blokları diz, çizgileri tamamla, skorunu katla.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.acargames.CarparkourMASTER" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/-gvXOwGakiMXRuFphMWY5qoiAhtblYXCWCsAx7EFVZ6bgqiBgqSzbJyG4Ed-QPn5VTyCA326icH0VwLAOCyuIQ=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Car parkour: MASTER</div>
+            <div class="game-card-desc" data-i18n="hook_parkour">İmkansız rampalarda ustalığını kanıtla.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_casual">Rastgele</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-driving" data-i18n="tag_driving">Sürüş</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.Redout.CarZoneBattleRoyale" target="_blank" rel="noopener" aria-label="Car Zone Battle Royale - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/Ag3nRxGeiHtvLbMsAuwxZRYo79J6Zq2LjQ_ipCV5Ooj6XiCtUQ5XmTnb26xkrv96IUYZxHm8YImWCeeZNLaS=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Car Zone Battle Royale</h3>
-            <p class="row-hook" data-i18n="hook_battle">Sahada son kalan araç sen ol.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.Redour.CarChasePolicePursuit" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/r5y6pnChVd2mLQ0s3qLF3H-wO4T60-T02XPCjTejsgfvHITAbm5d1FS4551AjPzFSmV4acyYNdoYHE9odhAQ=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Car Chase: Police Pursuit</div>
+            <div class="game-card-desc" data-i18n="hook_chase">Polisten kaç, sokakları arkanda bırak.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_driving">Sürüş</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-driving" data-i18n="tag_driving">Sürüş</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.Redour.CarChasePolicePursuit" target="_blank" rel="noopener" aria-label="Car Chase: Police Pursuit - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/r5y6pnChVd2mLQ0s3qLF3H-wO4T60-T02XPCjTejsgfvHITAbm5d1FS4551AjPzFSmV4acyYNdoYHE9odhAQ=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Car Chase: Police Pursuit</h3>
-            <p class="row-hook" data-i18n="hook_chase">Polisten kaç, sokakları arkanda bırak.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.Redout.CarZoneBattleRoyale" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/Ag3nRxGeiHtvLbMsAuwxZRYo79J6Zq2LjQ_ipCV5Ooj6XiCtUQ5XmTnb26xkrv96IUYZxHm8YImWCeeZNLaS=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Car Zone Battle Royale</div>
+            <div class="game-card-desc" data-i18n="hook_battle">Sahada son kalan araç sen ol.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_driving">Sürüş</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-driving" data-i18n="tag_driving">Sürüş</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.acargames.CarparkourMASTER" target="_blank" rel="noopener" aria-label="Car parkour: MASTER - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/-gvXOwGakiMXRuFphMWY5qoiAhtblYXCWCsAx7EFVZ6bgqiBgqSzbJyG4Ed-QPn5VTyCA326icH0VwLAOCyuIQ=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Car parkour: MASTER</h3>
-            <p class="row-hook" data-i18n="hook_parkour">İmkansız rampalarda ustalığını kanıtla.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.CarCrash.CarCrashSimulatorAccidents" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/bSQqNLzVr8AzfSUUfjYZze2c2tdKeIOKksvl5cblhlW5Rfkl3M7hHurrKeLhOXl6zPLwdP2zBEdlYPlv1RkPJQ=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Car Crash Simulator Accidents</div>
+            <div class="game-card-desc" data-i18n="hook_accidents">Sokaklarda kaos yarat, fren yok.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_driving">Sürüş</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-driving" data-i18n="tag_driving">Sürüş</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.Acargames.CarDriftMonsterEscape" target="_blank" rel="noopener" aria-label="Car Drift: Monster Escape - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/m5SjCw3v4Gji6q3dMU20TBFnKzTdDhWDJEInM2dltI8Zt33tEFrwoF-S3KJfOAObIfNOrAU7aCnF8EL9vPBqhNI=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Car Drift: Monster Escape</h3>
-            <p class="row-hook" data-i18n="hook_drift">Labirentte drift at, canavardan kaç.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.acargames.blockfall" target="_blank" rel="noopener">
+          <div class="game-card-icon-fb" aria-hidden="true">B</div>
+          <div class="game-card-info">
+            <div class="game-card-title">Block Fall 3D: Logic Puzzle</div>
+            <div class="game-card-desc" data-i18n="hook_blockfall">Blokları diz, çizgileri tamamla, skorunu katla.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_driving">Sürüş</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-casual" data-i18n="tag_casual">Rastgele</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.Redour.CarCrashSimulatorRoyale2" target="_blank" rel="noopener" aria-label="Car Crash Simulator Royale 2 - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/kGvk_7lacf6PBAI6iPW-0aC2weQaDCRhIil33UeFD2yk54zjnF0W-z1EXQ4KejYRox4AjmaWMVPue196YWvg=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Car Crash Simulator Royale 2</h3>
-            <p class="row-hook" data-i18n="hook_royale2">Her çarpışma bir gösteri, her hasar gerçek.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.casesimgames.casesimulation" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/IsKqp0x0_veJyvMc-tO2tjNs5REbmB3r_K2c0Mc1n2weTtbTeBCbs_NMH2RRMiqjYVEPt07b14h1pzFYO_r3=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Case Simulator: CS</div>
+            <div class="game-card-desc" data-i18n="hook_case">Kutuyu aç, şansını dene, koleksiyonunu büyüt.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_driving">Sürüş</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-casual" data-i18n="tag_casual">Rastgele</span>
+          <span class="game-card-arrow">→</span>
         </a>
-        <a class="row" href="https://play.google.com/store/apps/details?id=com.CarCrash.CarCrashSimulatorAccidents" target="_blank" rel="noopener" aria-label="Car Crash Simulator Accidents - Play Store'da gör">
-          <img src="https://play-lh.googleusercontent.com/bSQqNLzVr8AzfSUUfjYZze2c2tdKeIOKksvl5cblhlW5Rfkl3M7hHurrKeLhOXl6zPLwdP2zBEdlYPlv1RkPJQ=s128" alt="" class="row-icon" loading="lazy">
-          <div class="row-main">
-            <h3 class="row-title">Car Crash Simulator Accidents</h3>
-            <p class="row-hook" data-i18n="hook_accidents">Sokaklarda kaos yarat, fren yok.</p>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.redour.idlecryptominer" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/2z9Gu-A4CLVr35DAUnUJzBKzG4WAMVjY3jDWJMTZboHukVq8_GYJwGikcVxBJTufwfTLeMkkkJG2vy5QNfXV8Q=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Idle Crypto Miner Game</div>
+            <div class="game-card-desc" data-i18n="hook_idle">Madenciliği kur, biriktir — ekranı kapatsan bile kazan.</div>
           </div>
-          <div class="row-meta"><span class="row-tag" data-i18n="tag_driving">Sürüş</span><span class="row-arrow">→</span></div>
+          <span class="game-card-badge badge-casual" data-i18n="tag_casual">Rastgele</span>
+          <span class="game-card-arrow">→</span>
+        </a>
+        <a class="game-card" href="https://play.google.com/store/apps/details?id=com.ezanpro.app" target="_blank" rel="noopener">
+          <img src="https://play-lh.googleusercontent.com/cyTKgKc-d4sR5gIAJRDBkKxiwd2cxw-zD3u05SISwubLwTD5vYmlZj8IHRUs2c7JKmL071-Tnmd9mZJxgC-8ZA=s128" alt="" class="game-card-icon" loading="lazy">
+          <div class="game-card-info">
+            <div class="game-card-title">Ezanpro</div>
+            <div class="game-card-desc" data-i18n="hook_ezanpro">Namaz vakitlerini takip et, ezanı kaçırma.</div>
+          </div>
+          <span class="game-card-badge badge-utility" data-i18n="tag_utility">Günlük Yaşam</span>
+          <span class="game-card-arrow">→</span>
         </a>
       </div>
     </div>
   </section>
 
+  <!-- Contact -->
   <section class="contact" id="iletisim">
-    <div class="container reveal">
-      <p class="eyebrow" data-i18n="contact_eyebrow">İletişim</p>
-      <h2 data-i18n="contact_h2">Destek mi lazım, fikrin mi var?</h2>
-      <p data-i18n="contact_p">Uygulamalarımızdan biriyle ilgili bir sorun mu yaşıyorsun, yoksa iş birliği mi önermek istiyorsun? Doğrudan yaz, elimizden geldiğince hızlı dönüş yaparız.</p>
-      <div class="contact-links">
-        <a href="mailto:sedatacar@mail.com" class="btn btn-primary">sedatacar@mail.com</a>
-        <a href="https://acargamess.blogspot.com/" target="_blank" rel="noopener" class="btn-text" data-i18n="contact_blog">Blog</a>
+    <div class="container">
+      <div class="contact-card reveal">
+        <p class="eyebrow" data-i18n="contact_eyebrow">İletişim</p>
+        <h2 data-i18n="contact_h2">Destek mi lazım, fikrin mi var?</h2>
+        <p data-i18n="contact_p">Uygulamalarımızdan biriyle ilgili bir sorun mu yaşıyorsun, yoksa iş birliği mi önermek istiyorsun? Doğrudan yaz, elimizden geldiğince hızlı dönüş yaparız.</p>
+        <div class="contact-links">
+          <a href="mailto:sedatacar@mail.com" class="btn btn-primary">sedatacar@mail.com</a>
+          <a href="https://acargamess.blogspot.com/" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="contact_blog">Blog</a>
+        </div>
       </div>
     </div>
   </section>
@@ -198,6 +242,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=10"></script>
+<script src="script.js?v=11"></script>
 </body>
 </html>
