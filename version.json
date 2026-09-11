@@ -1,7 +1,7 @@
 {
-  "latestVersion": "0.1.8",
+  "latestVersion": "0.1.9",
   "minimumVersion": "0.1.8",
-  "optionalUpdate": false,
+  "optionalUpdate": true,
   "storeUrl": "https://play.google.com/store/apps/details?id=com.backrooms.online",
   "message": ""
 }
