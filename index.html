@@ -11,7 +11,7 @@
 <style>
 :root{
   --bg:#060b18; --bg-2:#0c1324;
-  --glass:rgba(255,255,255,.05); --glass-border:rgba(255,255,255,.09);
+  --glass:rgba(255,255,255,.06); --glass-border:rgba(255,255,255,.09);
   --ink:#f0f2f8; --ink-dim:#7a8ba8;
   --cyan:#00f5d4; --purple:#7b2ff7; --amber:#f5a623; --pink:#ff6b9d; --red:#ff3b3b; --lilac:#a78bfa; --teal:#00c9a7;
 }
@@ -20,12 +20,25 @@ html,body{min-height:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,sans-serif;
   color:var(--ink); background:var(--bg);
-  background-image:
-    radial-gradient(600px 400px at 15% -10%, rgba(123,47,247,.28), transparent 70%),
-    radial-gradient(500px 400px at 100% 10%, rgba(0,245,212,.16), transparent 70%);
-  background-attachment:fixed;
-  display:flex; justify-content:center; padding:32px 16px 24px;
-  -webkit-font-smoothing:antialiased;
+  min-height:100vh; min-height:100dvh;
+  display:flex; align-items:center; justify-content:center; padding:40px 16px;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+/* Arka plan: ekranı kaplayan yumuşak, yavaş hareket eden ışıklar */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 40%, #0e1730 0%, var(--bg) 70%)}
+.bg i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:drift 22s ease-in-out infinite alternate}
+.bg i:nth-child(1){width:55vmax;height:55vmax;left:-15vmax;top:-20vmax;background:var(--purple)}
+.bg i:nth-child(2){width:45vmax;height:45vmax;right:-15vmax;top:-10vmax;background:var(--cyan);opacity:.32;animation-duration:26s}
+.bg i:nth-child(3){width:50vmax;height:50vmax;left:20vmax;bottom:-30vmax;background:var(--pink);opacity:.3;animation-duration:30s}
+.bg i:nth-child(4){width:35vmax;height:35vmax;right:5vmax;bottom:-15vmax;background:var(--purple);opacity:.35;animation-duration:24s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(6vmax,4vmax) scale(1.15)}}
+.bg::after{ /* ince nokta dokusu */
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:24px 24px;
+  mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);
 }
 .wrap{width:100%;max-width:520px}
 
@@ -80,7 +93,7 @@ header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
 .icon{background-size:300% 300%;animation:flow 7s ease-in-out infinite}
 @keyframes flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .app:hover .icon{box-shadow:0 8px 24px rgba(0,245,212,.35)}
-@media (prefers-reduced-motion:reduce){.icon{animation:none}}
+@media (prefers-reduced-motion:reduce){.icon,.bg i{animation:none}}
 
 footer{margin-top:22px;text-align:center;font-size:12px;color:var(--ink-dim)}
 footer a{color:var(--ink-dim);text-decoration:none}
@@ -93,6 +106,7 @@ footer a:hover{color:var(--cyan)}
 </style>
 </head>
 <body>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <div class="wrap">
 
   <header>
